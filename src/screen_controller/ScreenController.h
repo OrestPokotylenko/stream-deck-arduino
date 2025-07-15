@@ -2,7 +2,7 @@
 #define SCREEN_CONTROLLER_H
 
 #include <LiquidCrystal.h>
-#include "song_config/Song.h"
+#include "include/Song.h"
 
 class ScreenController {
     public:

@@ -11,6 +11,10 @@ void ScreenController::setContent(Song song) {
         return;
     }
 
+    if (song.name.length() == 0 && song.duration.length() == 0) {
+        return;
+    }
+
     _lcd.clear();
     _lcd.setCursor(0, 0);
     _lcd.print(song.name);

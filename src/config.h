@@ -1,0 +1,9 @@
+#ifndef CONFIG_H
+#define CONFIG_H
+
+#define PAUSE_BUTTON 7
+#define PREVIOUS_TRACK_BUTTON 6
+#define NEXT_TRACK_BUTTON 8
+#define VOLUME_POTENTIOMETER 4
+
+#endif

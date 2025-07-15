@@ -6,7 +6,7 @@
 class ReceiverUtility
 {
 public:
-    static String getCleanString(String $receiverInput);
+    static String getCleanString(String receiverInput);
 };
 
 #endif

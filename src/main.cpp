@@ -7,7 +7,7 @@
 #include "app_communicator/AppCommunicator.h"
 #include "command_handler/CommandHandler.h"
 
-LiquidCrystal lcd(12, 11, 5, 4, 3, 2);
+LiquidCrystal lcd(LCD_RS, LCD_ENABLE, LCD_D4, LCD_D5, LCD_D6, LCD_D7);
 ScreenController screen(lcd);
 SerialController serialController;
 
@@ -19,8 +19,8 @@ void setup()
     pinMode(PAUSE_BUTTON, INPUT_PULLUP);
     pinMode(NEXT_TRACK_BUTTON, INPUT_PULLUP);
     pinMode(PREVIOUS_TRACK_BUTTON, INPUT_PULLUP);
-    lcd.begin(16, 2);
-    Serial.begin(115200);
+    lcd.begin(LCD_COLUMNS, LCD_ROWS);
+    Serial.begin(BAUD_RATE);
 }
 
 void loop()
@@ -28,13 +28,11 @@ void loop()
     // Update command handler to process button debouncing
     commandHandler.update();
     
-    // Update serial controller to check for new data (non-blocking)
+    // Update serial controller to check for new data
     serialController.update();
     
-    // Only update screen if there's new song data
-    if (serialController.hasNewSongData()) {
+    if (serialController.processNewSongData()) {
         screen.setContent(serialController.getSong());
-        serialController.clearNewDataFlag(); // Clear flag after processing
     }
     
     appCommunicator.sendCommand();

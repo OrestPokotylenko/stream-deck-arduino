@@ -11,6 +11,7 @@ class SerialController {
         bool hasNewSongData();
         void clearNewDataFlag();
         void update(); // Call this in loop to check for new data
+        bool processNewSongData(); // Returns true if new data was processed
 
     private:
         bool waitForSerial(unsigned long timeoutMs);

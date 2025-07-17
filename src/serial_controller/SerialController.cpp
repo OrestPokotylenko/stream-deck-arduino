@@ -21,25 +21,40 @@ void SerialController::clearNewDataFlag()
     hasNewData = false;
 }
 
+bool SerialController::processNewSongData()
+{
+    if (hasNewData)
+    {
+        hasNewData = false;
+        return true;
+    }
+    return false;
+}
+
 void SerialController::update()
 {
-    // Check for new serial data without blocking
-    while (Serial.available()) {
+    while (Serial.available())
+    {
         char c = Serial.read();
-        
-        if (c == '\n' || c == '\r') {
-            if (inputBuffer.length() > 0) {
+
+        if (c == '\n' || c == '\r')
+        {
+            if (inputBuffer.length() > 0)
+            {
                 processSongData();
                 inputBuffer = "";
             }
-        } else {
+        }
+        else
+        {
             inputBuffer += c;
             lastDataTime = millis();
         }
     }
-    
-    // Clear buffer if data is incomplete and timeout exceeded (prevent buffer overflow)
-    if (inputBuffer.length() > 0 && (millis() - lastDataTime > 10000)) {
+
+    // Clear buffer if data is incomplete and timeout exceeded
+    if (inputBuffer.length() > 0 && (millis() - lastDataTime > 10000))
+    {
         inputBuffer = "";
     }
 }
@@ -48,20 +63,25 @@ void SerialController::processSongData()
 {
     static bool expectingDuration = false;
     static String tempSongName = "";
-    
+
     String cleanData = ReceiverUtility::getCleanString(inputBuffer);
-    
-    if (cleanData.length() == 0) {
+
+    if (cleanData.length() == 0)
+    {
         return;
     }
-    
-    if (!expectingDuration) {
+
+    if (!expectingDuration)
+    {
         // First line should be song name
         tempSongName = cleanData;
         expectingDuration = true;
-    } else {
+    }
+    else
+    {
         // Second line should be duration
-        if (tempSongName.length() > 0) {
+        if (tempSongName.length() > 0)
+        {
             lastSong.name = tempSongName;
             lastSong.duration = cleanData;
             hasNewData = true;
@@ -71,30 +91,40 @@ void SerialController::processSongData()
     }
 }
 
-String SerialController::readLineWithTimeout(unsigned long timeoutMs) {
+String SerialController::readLineWithTimeout(unsigned long timeoutMs)
+{
     String line = "";
     unsigned long start = millis();
-    while (millis() - start < timeoutMs) {
-        if (Serial.available()) {
+
+    while (millis() - start < timeoutMs)
+    {
+        if (Serial.available())
+        {
             char c = Serial.read();
-            if (c == '\n') {
+            if (c == '\n')
+            {
                 return line;
             }
             line += c;
-            start = millis();  // reset timeout for each new byte
+            start = millis(); // reset timeout for each new byte
         }
     }
-    return ""; // timeout
+
+    return "";
 }
 
-void SerialController::writeToSerial(String input) {
+void SerialController::writeToSerial(String input)
+{
     Serial.println(input);
 }
 
-bool SerialController::waitForSerial(unsigned long timeoutMs) {
+bool SerialController::waitForSerial(unsigned long timeoutMs)
+{
     unsigned long start = millis();
-    while (!Serial.available()) {
-        if (millis() - start >= timeoutMs) {
+    while (!Serial.available())
+    {
+        if (millis() - start >= timeoutMs)
+        {
             return false;
         }
     }

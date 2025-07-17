@@ -3,7 +3,6 @@
 ScreenController::ScreenController(LiquidCrystal &lcd)
     : _lcd(lcd)
 {
-
 }
 
 void ScreenController::setContent(Song song) {

@@ -3,11 +3,14 @@
 ScreenController::ScreenController(LiquidCrystal &lcd)
     : _lcd(lcd)
 {
-
 }
 
 void ScreenController::setContent(Song song) {
     if (!isContentChanged(song)) {
+        return;
+    }
+
+    if (song.name.length() == 0 && song.duration.length() == 0) {
         return;
     }
 

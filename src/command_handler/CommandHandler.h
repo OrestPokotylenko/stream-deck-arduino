@@ -21,7 +21,7 @@ private:
     bool lastButtonStates[3] = {false, false, false}; // Last stable states
     bool currentButtonStates[3] = {false, false, false}; // Current readings
     unsigned long lastDebounceTime[3] = {0, 0, 0}; // Last time buttons changed
-    unsigned long debounceDelay = 50; // 50ms debounce delay
+    unsigned long DEBOUNCE_DELAY = 50; // 50ms debounce delay
     CommandType pendingCommand = CommandType::NONE;
     
     static constexpr PinCommand pinMappings[3] = {

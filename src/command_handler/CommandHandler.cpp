@@ -27,7 +27,7 @@ void CommandHandler::update()
         }
 
         // If not enough time has passed since the last change
-        if ((millis() - lastDebounceTime[i]) <= debounceDelay)
+        if ((millis() - lastDebounceTime[i]) <= DEBOUNCE_DELAY)
         {
             continue;
         }

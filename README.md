@@ -1,0 +1,1 @@
+This project runs on an Arduino board. It listens for button presses (like play/pause, next, previous) and sends those commands to a PC via Serial (USB). It also receives the currently playing song info (name and duration) from the PC and shows it on a small LCD screen. It also reads volume input from a potentiometer.

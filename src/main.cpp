@@ -9,7 +9,7 @@
 #include "command_handler/CommandHandler.h"
 
 LiquidCrystal lcd(LCD_RS, LCD_ENABLE, LCD_D4, LCD_D5, LCD_D6, LCD_D7);
-ScreenController screen(lcd);
+ScreenController screen(lcd, LCD_COLUMNS);
 SerialController serialController;
 VolumeController volumeController(VOLUME_POTENTIOMETER);
 
@@ -30,11 +30,10 @@ void loop()
 {
     // Update command handler to process button debouncing
     commandHandler.update();
-    
     // Update serial controller to check for new data
     serialController.update();
-
     volumeController.update();
+    screen.update();
     
     if (serialController.processNewSongData()) {
         screen.setContent(serialController.getSong());
